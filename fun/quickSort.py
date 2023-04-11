@@ -15,13 +15,11 @@ class Solution:
 
     def pivot(self, numbers: List[int], lower: int, higher: int):
         left = lower - 1
-        index = lower
-        while index < higher:
+        for index in range(lower, higher):
             if numbers[index] <= numbers[higher]:
                 left += 1
                 # Swapping element at left with element at index
                 (numbers[left], numbers[index]) = (numbers[index], numbers[left])
-            index += 1
         # Swap the pivot(higher) element with the greater element specified by the left
         (numbers[left + 1], numbers[higher]) = (numbers[higher], numbers[left + 1])
 
