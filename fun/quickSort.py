@@ -7,13 +7,12 @@ sys.tracebacklimit = 0
 
 class Solution:
     def qs(self, numbers: List[int], lower: int, higher: int):
-        if lower >= higher:
-            return
-        pivot = self.pivot(numbers, lower, higher)
-        self.qs(numbers, lower, pivot - 1)
-        self.qs(numbers, pivot + 1, higher)
+        if lower < higher:
+            pivot = self.pivot(numbers, lower, higher)
+            self.qs(numbers, lower, pivot - 1)
+            self.qs(numbers, pivot + 1, higher)
 
-    def pivot(self, numbers: List[int], lower: int, higher: int):
+    def pivot(self, numbers: List[int], lower: int, higher: int) -> int:
         left = lower - 1
         for index in range(lower, higher):
             if numbers[index] <= numbers[higher]:
