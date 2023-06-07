@@ -6,6 +6,8 @@ sys.tracebacklimit = 0
 
 
 class Solution:
+    seen = set()
+
     def numIslands(self, grid: List[List[str]]) -> int:
         if not grid:
             return 0
@@ -15,7 +17,7 @@ class Solution:
 
         def bfs(r, c):
             q = deque()
-            seen.add((r, c))
+            self.seen.add((r, c))
             q.append((r, c))
             while q:
                 row, col = q.popleft()
@@ -25,14 +27,14 @@ class Solution:
                         r in rows
                         and c in cols
                         and grid[r][c] == "1"
-                        and (r, c) not in seen
+                        and (r, c) not in self.seen
                     ):
                         q.append((r, c))
-                        seen.add((r, c))
+                        self.seen.add((r, c))
 
         for r in rows:
             for c in cols:
-                if grid[r][c] == "1" and (r, c) not in seen:
+                if grid[r][c] == "1" and (r, c) not in self.seen:
                     bfs(r, c)
                     islands += 1
         return islands
