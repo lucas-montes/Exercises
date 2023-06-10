@@ -6,14 +6,15 @@ sys.tracebacklimit = 0
 
 
 class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         if not grid:
             return 0
         rows, cols = range(len(grid)), range(len(grid[0]))
         seen = set()
-        islands = 0
+        islands = []
 
         def bfs(r, c):
+            island = 1
             q = deque()
             seen.add((r, c))
             q.append((r, c))
@@ -24,18 +25,22 @@ class Solution:
                     if (
                         r in rows
                         and c in cols
-                        and grid[r][c] == "1"
+                        and grid[r][c] == 1
                         and (r, c) not in seen
                     ):
                         q.append((r, c))
                         seen.add((r, c))
+                        island += 1
+            return island
 
         for r in rows:
             for c in cols:
-                if grid[r][c] == "1" and (r, c) not in seen:
-                    bfs(r, c)
-                    islands += 1
-        return islands
+                if grid[r][c] == 1 and (r, c) not in seen:
+                    islands.append(bfs(r, c))
+        try:
+            return max(islands)
+        except:
+            return 0
 
 
 def run_test(expected, test_data, method):
@@ -47,27 +52,20 @@ def run_test(expected, test_data, method):
 
 
 run_test(
-    1,
+    6,
     [
         [
-            ["1", "1", "1", "1", "0"],
-            ["1", "1", "0", "1", "0"],
-            ["1", "1", "0", "0", "0"],
-            ["0", "0", "0", "0", "0"],
+            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
         ]
     ],
-    "numIslands",
+    "maxAreaOfIsland",
 )
-run_test(
-    3,
-    [
-        [
-            ["1", "1", "0", "0", "0"],
-            ["1", "1", "0", "0", "0"],
-            ["0", "0", "1", "0", "0"],
-            ["0", "0", "0", "1", "1"],
-        ]
-    ],
-    "numIslands",
-)
-# run_test(RESULT, [ARGS], 'numIslands')
+run_test(0, [[[0, 0, 0, 0, 0, 0, 0, 0]]], "maxAreaOfIsland")
+# run_test(RESULT, [ARGS], 'maxAreaOfIsland')
