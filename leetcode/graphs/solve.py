@@ -15,6 +15,7 @@ class Solution:
         ]
         rows, cols = len(board), len(board[0])
         seen = set()
+        is_o = set()
 
         queue = deque()
         queue.append((0, 0))
@@ -24,15 +25,12 @@ class Solution:
             for dx, dy in directions:
                 new_row = curr_row + dx
                 new_col = curr_col + dy
-
-                if (
-                    0 <= new_row < rows
-                    and 0 <= new_col < cols
-                    and (new_row, new_col) not in seen
-                    and board[new_row][new_col] == 0
-                ):
-                    seen.add((new_row, new_col))
-                    queue.append((new_row, new_col))
+                p = (new_row, new_col)
+                if 0 <= new_row < rows and 0 <= new_col < cols and p not in seen:
+                    seen.add(p)
+                    queue.append(p)
+                    if board[new_row][new_col] == "0":
+                        is_o.add(p)
 
 
 def run_test(method, expected, *args, **kwargs):
