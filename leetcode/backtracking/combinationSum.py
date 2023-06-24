@@ -6,21 +6,25 @@ sys.tracebacklimit = 0
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        candidates.sort(reverse=True)
-        seen = {}
         result = []
-        while candidates:
-            c = candidates.pop(0)
-            if c < target:
-                i = 0
-                while i < len(candidates):
-                    new_c = candidates[0]
-                    if new_c > target or new_c + c > target:
-                        i += 1
-                    else:
 
-            elif c == target:
-                result.append([c])
+        def dfs(index, current, total):
+            if total == target:
+                result.append(current.copy())
+                return
+            if index >= len(candidates) or total > target:
+                return
+
+            # here we make the combinations with the next candidate
+            current.append(candidates[index])
+            dfs(index, current, total + candidates[index])
+
+            # here we do not take into consideration the next candidate
+            current.pop()
+            dfs(index + 1, current, total)
+
+        dfs(0, [], 0)
+        return result
 
 
 def run_test(method, expected, *args, **kwargs):
