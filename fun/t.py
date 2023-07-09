@@ -1,23 +1,20 @@
 import requests
 
-def send_get_request_with_bearer_token(url, token):
+def send_get_request_with_bearer_token(token, entity="terms",user_id=1,prod_id=1):
     headers = {
         'Authorization': f'Bearer {token}'
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(
+        "http://localhost:8000/recommendations/",
+        headers=headers,
+        params=dict(entity=entity,user_id=user_id,prod_id=prod_id)
+    )
 
-    if response.status_code == 200:
-        # Request succeeded
-        print('GET request successful')
-        print('Response:', response.json())
-    else:
-        # Request failed
-        print('GET request failed')
-        print('Response:', response.text)
+    print('GET request')
+    print('Response:', response.status_code)
+    print('Response:', response.json())
 
-# Example usage
-url = 'http://localhost:8000/api/V1/users/1/'
-token = 'your_bearer_token'
-
-send_get_request_with_bearer_token(url, token)
+token = 'widget_api_key'
+# token = "acme_api_key" #only users
+send_get_request_with_bearer_token(token, "companies" )
